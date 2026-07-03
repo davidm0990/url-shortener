@@ -1,0 +1,26 @@
+{
+	// The name of your Worker (your app) on Cloudflare
+	"name": "url-shortener",
+
+	// Which version of the Workers runtime features to use.
+	// Think of it as "pin my app to how Cloudflare behaved on this date."
+	"compatibility_date": "2026-07-01",
+
+	// --- Deploy settings (used later when you deploy) ---
+	// The built Worker file the Cloudflare adapter produces:
+	"main": ".svelte-kit/cloudflare/_worker.js",
+	// Your static files (CSS, images, favicon) get served from here:
+	"assets": {
+		"binding": "ASSETS",
+		"directory": ".svelte-kit/cloudflare"
+	},
+
+	// --- The important part: your KV binding ---
+	// This is what makes `platform.env.SHORT_LINKS` work in your code.
+	"kv_namespaces": [
+		{
+			"binding": "SHORT_LINKS",
+			"id": "69b84e4374cf48169c96159d9cd501f9"
+		}
+	]
+}
