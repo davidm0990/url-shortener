@@ -12,11 +12,11 @@
 	</form>
 
 	{#if form?.error}
-		<p class="error">{form.error}</p>
+		<p class="msg error">{form.error}</p>
 	{/if}
 
 	{#if form?.shortUrl}
-		<p class="success">✅ Your short link: <a href={form.shortUrl}>{form.shortUrl}</a></p>
+		<p class="msg success">✅ Your short link: <a href={form.shortUrl}>{form.shortUrl}</a></p>
 	{/if}
 
 	{#if data.links.length > 0}
@@ -27,6 +27,7 @@
 					<a class="code" href={`/${link.code}`}>/{link.code}</a>
 					<span class="arrow">→</span>
 					<span class="dest">{link.url}</span>
+					<span class="clicks">{link.clicks} clicks</span>
 				</li>
 			{/each}
 		</ul>
@@ -36,79 +37,81 @@
 <style>
 	:global(body) {
 		margin: 0;
-		background: #f4f5f7;
+		background: #eef2f8;
 		font-family: 'Segoe UI', system-ui, sans-serif;
-		color: #23272e;
+		color: #475569;
 	}
 	main {
-		max-width: 640px;
+		max-width: 560px;
 		margin: 3rem auto;
-		padding: 2rem 2.25rem;
-		background: #fff;
-		border-radius: 14px;
-		box-shadow: 0 6px 24px rgba(0, 0, 0, 0.06);
+		padding: 2rem;
+		background: #ffffff;
+		border: 1px solid #e6eaf2;
+		border-radius: 18px;
+		box-shadow: 0 12px 30px rgba(30, 50, 90, 0.08);
 	}
-	h1 { margin: 0 0 0.25rem; font-size: 1.9rem; }
-	.tagline { margin: 0 0 1.5rem; color: #5a6069; }
-	form { display: flex; gap: 0.5rem; }
+	h1 {
+		margin: 0 0 0.3rem;
+		font-size: 1.8rem;
+		font-weight: 800;
+		letter-spacing: -0.4px;
+		background: linear-gradient(90deg, #38bdf8, #2563eb);
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
+	}
+	.tagline { margin: 0 0 1.5rem; font-size: 0.85rem; color: #8a94a6; }
+
+	form { display: flex; gap: 0.6rem; }
 	input {
 		flex: 1;
-		padding: 0.7rem 0.9rem;
-		border: 1px solid #d6dae0;
-		border-radius: 8px;
-		font-size: 1rem;
+		padding: 0.75rem 0.9rem;
+		border: 1px solid #e2e8f0;
+		border-radius: 12px;
+		background: #f7f9fc;
+		font-size: 0.95rem;
+		color: #1e293b;
 	}
-	input:focus {
-		outline: none;
-		border-color: #f6821f;
-		box-shadow: 0 0 0 3px rgba(246, 130, 31, 0.15);
-	}
+	input:focus { outline: none; border-color: #38bdf8; box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.18); }
+	input::placeholder { color: #9aa4b2; }
 	button {
-		padding: 0.7rem 1.3rem;
+		padding: 0.75rem 1.3rem;
 		border: none;
-		border-radius: 8px;
-		background: #f6821f;
+		border-radius: 12px;
+		background: linear-gradient(135deg, #38bdf8, #2563eb);
 		color: #fff;
-		font-size: 1rem;
-		font-weight: 600;
+		font-size: 0.95rem;
+		font-weight: 700;
 		cursor: pointer;
 	}
-	button:hover { background: #e5730f; }
-	.error {
-		color: #c0392b;
-		background: #fdecea;
-		padding: 0.6rem 0.8rem;
-		border-radius: 8px;
-	}
-	.success {
-		background: #eafaf1;
-		padding: 0.6rem 0.8rem;
-		border-radius: 8px;
-	}
-	.success a { color: #1c7c4a; font-weight: 600; }
-	h2 { margin-top: 2rem; font-size: 1.15rem; }
-	ul.links { list-style: none; padding: 0; margin: 0; }
+	button:hover { filter: brightness(1.06); }
+
+	.msg { border-radius: 12px; padding: 0.7rem 0.9rem; margin-top: 1.25rem; font-size: 0.9rem; background: #f7f9fc; }
+	.error { color: #dc2626; }
+	.success a { color: #2563eb; font-weight: 600; }
+
+	h2 { margin: 1.75rem 0 1rem; font-size: 1.1rem; color: #1e293b; font-weight: 600; }
+	ul.links { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.5rem; }
 	ul.links li {
 		display: flex;
 		align-items: center;
 		gap: 0.5rem;
-		padding: 0.6rem 0;
-		border-bottom: 1px solid #eceef1;
-		font-size: 0.9rem;
+		padding: 0.7rem 0.85rem;
+		border-radius: 12px;
+		background: #f7f9fc;
+		font-size: 0.85rem;
 	}
-	.code {
-		font-family: 'Consolas', monospace;
-		font-weight: 600;
-		color: #f6821f;
-		text-decoration: none;
+	.code { font-family: 'Consolas', monospace; font-weight: 700; color: #2563eb; text-decoration: none; white-space: nowrap; }
+	.arrow { color: #c3ccd8; }
+	.dest { color: #64748b; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+	.clicks {
+		margin-left: auto;
 		white-space: nowrap;
-	}
-	.arrow { color: #9aa0a6; }
-	.dest {
-		color: #5a6069;
-		min-width: 0;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
+		font-size: 0.72rem;
+		font-weight: 700;
+		color: #fff;
+		background: linear-gradient(135deg, #38bdf8, #2563eb);
+		padding: 0.2rem 0.6rem;
+		border-radius: 999px;
 	}
 </style>

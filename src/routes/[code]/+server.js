@@ -1,15 +1,16 @@
 import { redirect, error } from '@sveltejs/kit';
+import { parseLink } from '$lib/links.js';
 
 export async function GET({ params, platform }) {
-	// params.code is whatever came after the slash, e.g. "a3k9zq"
-	// 🔑 THE KV READ: look up the long URL saved under this code
-	const longUrl = await platform.env.SHORT_LINKS.get(params.code);
-
-	// Not in KV? Show a 404.
-	if (!longUrl) {
+	const raw = await platform.env.SHORT_LINKS.get(params.code);
+	if (!raw) {
 		throw error(404, 'That short link does not exist');
 	}
 
-	// Found it → send the visitor to the original URL
-	throw redirect(302, longUrl);
+	// READ current data → MODIFY the count → WRITE it back
+	const { url, clicks } = parseLink(raw);
+	const updated = JSON.stringify({ url, clicks: clicks + 1 });
+	await platform.env.SHORT_LINKS.put(params.code, updated);
+
+	throw redirect(302, url);
 }
