@@ -1,5 +1,21 @@
 import { fail } from '@sveltejs/kit';
 
+
+export async function load({ platform }) {
+	// Get every key (short code) in the store
+	const list = await platform.env.SHORT_LINKS.list();
+
+	// For each code, also fetch its long URL
+	const links = await Promise.all(
+		list.keys.map(async (k) => ({
+			code: k.name,
+			url: await platform.env.SHORT_LINKS.get(k.name)
+		}))
+	);
+
+	return { links };
+}
+
 // Makes a random 6-character code like "a3k9zq"
 function makeCode() {
     const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
