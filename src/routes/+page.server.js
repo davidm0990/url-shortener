@@ -14,7 +14,7 @@ export async function load({ platform }) {
 }
 
 export const actions = {
-	default: async ({ request, platform, url }) => {
+	create: async ({ request, platform, url }) => {
 		const data = await request.formData();
 		const longUrl = data.get('url');
 
@@ -29,5 +29,12 @@ export const actions = {
 		await platform.env.SHORT_LINKS.put(code, value,options);
 
 		return { shortUrl: `${url.origin}/${code}` };
+		
+	},
+	delete: async ({ request, platform }) => {
+		const data = await request.formData();
+		const code = data.get('code');
+		await platform.env.SHORT_LINKS.delete(code);
+		return { deleted: true };
 	}
 };

@@ -7,16 +7,16 @@
 	<p class="tagline">
 		Turn long links into short ones — powered by Cloudflare KV.
 	</p>
-	<form method="POST">
-	<input name="url" type="url" placeholder="Paste a long URL…" required />
-	<select name="ttl">
-		<option value="">Never expires</option>
-		<option value="60">1 minute</option>
-		<option value="3600">1 hour</option>
-		<option value="86400">1 day</option>
-		<option value="604800">1 week</option>
-	</select>
-	<button>Shorten</button>
+	<form method="POST" action="?/create">
+		<input name="url" type="url" placeholder="Paste a long URL…" required />
+		<select name="ttl">
+			<option value="">Never expires</option>
+			<option value="60">1 minute</option>
+			<option value="3600">1 hour</option>
+			<option value="86400">1 day</option>
+			<option value="604800">1 week</option>
+		</select>
+		<button>Shorten</button>
 	</form>
 
 	{#if form?.error}
@@ -38,6 +38,10 @@
 					<span class="arrow">→</span>
 					<span class="dest">{link.url}</span>
 					<span class="clicks">{link.clicks} clicks</span>
+					<form method="POST" action="?/delete">
+						<input type="hidden" name="code" value={link.code} />
+						<button class="del" aria-label="Delete link">✕</button>
+					</form>
 				</li>
 			{/each}
 		</ul>
@@ -79,9 +83,10 @@
 	form {
 		display: flex;
 		gap: 0.6rem;
+		flex-wrap: wrap;
 	}
 	input {
-		flex: 1;
+		flex: 1 1 100%;
 		padding: 0.75rem 0.9rem;
 		border: 1px solid #e2e8f0;
 		border-radius: 12px;
@@ -96,6 +101,21 @@
 	}
 	input::placeholder {
 		color: #9aa4b2;
+	}
+	select {
+		flex: 1;
+		padding: 0.75rem 0.9rem;
+		border: 1px solid #e2e8f0;
+		border-radius: 12px;
+		background: #f7f9fc;
+		font-size: 0.95rem;
+		color: #1e293b;
+		cursor: pointer;
+	}
+	select:focus {
+		outline: none;
+		border-color: #38bdf8;
+		box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.18);
 	}
 	button {
 		padding: 0.75rem 1.3rem;
@@ -175,5 +195,26 @@
 		background: linear-gradient(135deg, #38bdf8, #2563eb);
 		padding: 0.2rem 0.6rem;
 		border-radius: 999px;
+	}
+	.links form {
+		margin: 0;
+	}
+	.del {
+		width: 1.6rem;
+		height: 1.6rem;
+		padding: 0;
+		border: none;
+		border-radius: 50%;
+		background: #fee2e2;
+		color: #dc2626;
+		font-size: 0.8rem;
+		font-weight: 700;
+		line-height: 1;
+		cursor: pointer;
+		flex-shrink: 0;
+	}
+	.del:hover {
+		background: #dc2626;
+		color: #fff;
 	}
 </style>
