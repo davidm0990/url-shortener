@@ -5,7 +5,7 @@
 <main>
 	<h1>🔗 URL Shortener</h1>
 	<p class="tagline">
-		Turn long links into short ones — powered by Cloudflare KV.
+		Turn long links into short url 
 	</p>
 	<form method="POST" action="?/create">
 		<input name="url" type="url" placeholder="Paste a long URL…" required />
