@@ -4,11 +4,19 @@
 
 <main>
 	<h1>🔗 URL Shortener</h1>
-	<p class="tagline">Turn long links into short ones — powered by Cloudflare KV.</p>
-
+	<p class="tagline">
+		Turn long links into short ones — powered by Cloudflare KV.
+	</p>
 	<form method="POST">
-		<input name="url" type="url" placeholder="Paste a long URL…" required />
-		<button>Shorten</button>
+	<input name="url" type="url" placeholder="Paste a long URL…" required />
+	<select name="ttl">
+		<option value="">Never expires</option>
+		<option value="60">1 minute</option>
+		<option value="3600">1 hour</option>
+		<option value="86400">1 day</option>
+		<option value="604800">1 week</option>
+	</select>
+	<button>Shorten</button>
 	</form>
 
 	{#if form?.error}
@@ -16,7 +24,9 @@
 	{/if}
 
 	{#if form?.shortUrl}
-		<p class="msg success">✅ Your short link: <a href={form.shortUrl}>{form.shortUrl}</a></p>
+		<p class="msg success">
+			✅ Your short link: <a href={form.shortUrl}>{form.shortUrl}</a>
+		</p>
 	{/if}
 
 	{#if data.links.length > 0}
@@ -38,7 +48,7 @@
 	:global(body) {
 		margin: 0;
 		background: #eef2f8;
-		font-family: 'Segoe UI', system-ui, sans-serif;
+		font-family: "Segoe UI", system-ui, sans-serif;
 		color: #475569;
 	}
 	main {
@@ -60,9 +70,16 @@
 		background-clip: text;
 		color: transparent;
 	}
-	.tagline { margin: 0 0 1.5rem; font-size: 0.85rem; color: #8a94a6; }
+	.tagline {
+		margin: 0 0 1.5rem;
+		font-size: 0.85rem;
+		color: #8a94a6;
+	}
 
-	form { display: flex; gap: 0.6rem; }
+	form {
+		display: flex;
+		gap: 0.6rem;
+	}
 	input {
 		flex: 1;
 		padding: 0.75rem 0.9rem;
@@ -72,8 +89,14 @@
 		font-size: 0.95rem;
 		color: #1e293b;
 	}
-	input:focus { outline: none; border-color: #38bdf8; box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.18); }
-	input::placeholder { color: #9aa4b2; }
+	input:focus {
+		outline: none;
+		border-color: #38bdf8;
+		box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.18);
+	}
+	input::placeholder {
+		color: #9aa4b2;
+	}
 	button {
 		padding: 0.75rem 1.3rem;
 		border: none;
@@ -84,14 +107,39 @@
 		font-weight: 700;
 		cursor: pointer;
 	}
-	button:hover { filter: brightness(1.06); }
+	button:hover {
+		filter: brightness(1.06);
+	}
 
-	.msg { border-radius: 12px; padding: 0.7rem 0.9rem; margin-top: 1.25rem; font-size: 0.9rem; background: #f7f9fc; }
-	.error { color: #dc2626; }
-	.success a { color: #2563eb; font-weight: 600; }
+	.msg {
+		border-radius: 12px;
+		padding: 0.7rem 0.9rem;
+		margin-top: 1.25rem;
+		font-size: 0.9rem;
+		background: #f7f9fc;
+	}
+	.error {
+		color: #dc2626;
+	}
+	.success a {
+		color: #2563eb;
+		font-weight: 600;
+	}
 
-	h2 { margin: 1.75rem 0 1rem; font-size: 1.1rem; color: #1e293b; font-weight: 600; }
-	ul.links { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+	h2 {
+		margin: 1.75rem 0 1rem;
+		font-size: 1.1rem;
+		color: #1e293b;
+		font-weight: 600;
+	}
+	ul.links {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
 	ul.links li {
 		display: flex;
 		align-items: center;
@@ -101,9 +149,23 @@
 		background: #f7f9fc;
 		font-size: 0.85rem;
 	}
-	.code { font-family: 'Consolas', monospace; font-weight: 700; color: #2563eb; text-decoration: none; white-space: nowrap; }
-	.arrow { color: #c3ccd8; }
-	.dest { color: #64748b; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+	.code {
+		font-family: "Consolas", monospace;
+		font-weight: 700;
+		color: #2563eb;
+		text-decoration: none;
+		white-space: nowrap;
+	}
+	.arrow {
+		color: #c3ccd8;
+	}
+	.dest {
+		color: #64748b;
+		min-width: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
 	.clicks {
 		margin-left: auto;
 		white-space: nowrap;

@@ -23,8 +23,10 @@ export const actions = {
 		}
 
 		const code = makeCode();
+		const ttl = Number(data.get('ttl'));
+		const options = ttl ? { expirationTtl: ttl } : {};
 		const value = JSON.stringify({ url: longUrl, clicks: 0 });
-		await platform.env.SHORT_LINKS.put(code, value);
+		await platform.env.SHORT_LINKS.put(code, value,options);
 
 		return { shortUrl: `${url.origin}/${code}` };
 	}
